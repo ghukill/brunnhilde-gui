@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5.QtGui import *
-from PyQt5.QtCore import * 
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import subprocess
 import sys
@@ -46,9 +46,9 @@ class BrunnhildeApp(QMainWindow, design.Ui_Brunnhilde):
         self.dirStartScanBtn.setEnabled(True)
         self.diskImageCancelBtn.setEnabled(False)
         self.diskImageStartScan.setEnabled(True)
-    
+
     def about_dialog(self):
-        QMessageBox.information(self, "About", 
+        QMessageBox.information(self, "About",
             "Brunnhilde GUI v.2.0.0\nTim Walsh, 2017\nMIT License\nhttps://github.com/timothyryanwalsh/brunnhilde-gui\nCompatible with Brunnhilde 1.6.1+")
 
     def browse_dirsource(self):
@@ -98,7 +98,7 @@ class BrunnhildeApp(QMainWindow, design.Ui_Brunnhilde):
         # create list for process
         self.process_list = list()
         self.process_list.append("brunnhilde.py")
-        
+
         # give indication process has started
         self.dirStatus.setText('Processing')
 
@@ -125,6 +125,10 @@ class BrunnhildeApp(QMainWindow, design.Ui_Brunnhilde):
             self.process_list.append('--hash')
             self.process_list.append('sha512')
 
+        # load local assets
+        self.process_list.append('--load_assets')
+        self.process_list.append('/path/to/your/local/assets')
+
         self.process_list.append(self.dirSource.text())
         self.process_list.append(self.dirDestination.text())
         self.process_list.append(self.dirIdentifier.text())
@@ -149,9 +153,9 @@ class BrunnhildeApp(QMainWindow, design.Ui_Brunnhilde):
         # give indication process has started
         self.diskImageStatus.setText('Processing')
 
-        # add disk image flag  
+        # add disk image flag
         self.process_list.append('-d')
-        
+
         # universal option handling
         if not self.virusScan.isChecked():
             self.process_list.append('-n')
@@ -182,6 +186,10 @@ class BrunnhildeApp(QMainWindow, design.Ui_Brunnhilde):
             self.process_list.append('--hfs')
         if self.resForks.isChecked():
             self.process_list.append('--resforks')
+
+        # load local assets
+        self.process_list.append('--load_assets')
+        self.process_list.append('/path/to/your/local/assets')
 
         self.process_list.append(self.diskImageSource.text())
         self.process_list.append(self.diskImageDestination.text())
